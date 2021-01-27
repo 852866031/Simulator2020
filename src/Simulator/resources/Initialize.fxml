@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="290.0" prefWidth="271.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Simulator.GUI.InitializeController">
+   <children>
+      <Label layoutX="88.0" layoutY="24.0" text="Create your map:" AnchorPane.leftAnchor="88.0" AnchorPane.rightAnchor="43.0" AnchorPane.topAnchor="24.0" />
+      <Button fx:id="fileBtn" layoutX="85.0" layoutY="57.0" mnemonicParsing="false" onAction="#loadFile" text="Import map file" AnchorPane.leftAnchor="85.0" AnchorPane.topAnchor="57.0" />
+      <Label layoutX="125.0" layoutY="98.0" text="OR" AnchorPane.leftAnchor="125.0" AnchorPane.topAnchor="98.0" />
+      <Label layoutX="39.0" layoutY="126.0" text="Choose your grid size (min 10 x 10):" AnchorPane.leftAnchor="39.0" AnchorPane.topAnchor="126.0" />
+      <TextField fx:id="simWidth" layoutX="85.0" layoutY="153.0" prefHeight="27.0" prefWidth="36.0" AnchorPane.leftAnchor="85.0" AnchorPane.topAnchor="153.0" />
+      <TextField fx:id="simHeight" layoutX="148.0" layoutY="153.0" prefHeight="27.0" prefWidth="36.0" AnchorPane.leftAnchor="148.0" AnchorPane.topAnchor="153.0" />
+      <Label layoutX="130.0" layoutY="158.0" text="X" AnchorPane.leftAnchor="130.0" AnchorPane.topAnchor="158.0" />
+      <Button fx:id="enterbtn" layoutX="110.0" layoutY="240.0" mnemonicParsing="false" onAction="#enterSubmit" prefHeight="27.0" prefWidth="49.0" text="Enter" AnchorPane.leftAnchor="110.0" AnchorPane.topAnchor="240.0" />
+      <CheckBox onAction="#insideSelected" fx:id="inside" layoutX="54.0" layoutY="204.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="68.0" text="Inside" />
+      <CheckBox onAction="#outsideSelected" fx:id="outside" layoutX="151.0" layoutY="204.0" mnemonicParsing="false" text="Outside" />
+   </children>
+</AnchorPane>

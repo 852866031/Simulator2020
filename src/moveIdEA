@@ -1,0 +1,147 @@
+/*public ArrayList<String> move() {
+        int steps=0;
+        //update the magnitude and direction of speed
+        if(this.mobj.forces.size()==0) return new ArrayList<>();
+        ArrayList command=new ArrayList();
+        boolean noMotive=true;
+        for(force f : this.mobj.forces){
+            if(f instanceof motiveForce) noMotive=false;
+        }
+        this.updateJointForce();
+        double x = 0, y = 0;
+        if(this.speedAngle!=-1){
+            x += this.speed * Math.cos(this.speedAngle*Math.PI/180) + this.acc * Math.cos(this.accAngle*Math.PI/180);
+            y += this.speed * Math.sin(this.speedAngle*Math.PI/180) + this.acc * Math.sin(this.accAngle*Math.PI/180);
+        }
+        else{
+            x += this.acc * Math.cos(this.accAngle*Math.PI/180);
+            y += this.acc * Math.sin(this.accAngle*Math.PI/180);
+        }
+        boolean reversed=false;
+        this.speed = Math.sqrt(x * x + y * y);
+        double angle=force.angleConvert(x, y);
+        int[] dirToGo=force.angleToDirection(angle);
+        int[] curDir=force.angleToDirection(this.speedAngle);
+        this.speedAngle = (int) force.angleConvert(x, y);
+        //now we move towards the nearest direction
+        int[] dir = force.angleToDirection(this.speedAngle);
+        double secondCounter = 0;
+        boolean out=false;
+        if(dirToGo[0]==(-1)*curDir[0] && dirToGo[1]==(-1)*curDir[1]){
+            if(noMotive){
+                out=true;
+            }
+            reversed=true;
+        }
+        int[] pos = new int[]{this.mobj.x, this.mobj.y};
+        int k=0;
+        while (secondCounter <= 1) {
+            k++;
+            if(k>50) break;
+            System.out.println("infinite?");
+            //first we update the direction and the energy
+            dir = force.angleToDirection(this.speedAngle);
+            if ((dir[0] == 0 && dir[1] == 0)) return new ArrayList<>();
+            double energyChange = this.jointForce.magnitude * 1 * Math.cos(Math.abs(this.accAngle - this.speedAngle)*Math.PI/180);
+            if(reversed) this.energy=this.energy*(-1);
+            this.energy += energyChange;
+            double oldSpeed=this.speed;
+            this.speed = Math.sqrt(2 * this.energy / this.mobj.mass);
+            //now we move one grid
+            if(out) {
+                dir[0]=dir[0]*(-1);
+                dir[1]=dir[1]*(-1);
+            }
+            if (dir[0] == 1 && dir[1] == 0) {
+                if (pos[0] < this.mobj.cellList.row - 1 && !this.mobj.cellList.getCellAt(pos[0] + 1, pos[1]).hasObj()) {
+                    pos[0]++;
+                    command.add("s");
+                    secondCounter += timePass(this.mobj, oldSpeed);
+                }
+                else {
+                    command.add(" ");
+                    break;
+                }
+            }
+            else if (dir[0] == 1 && dir[1] == 1) {
+                if (pos[0] < this.mobj.cellList.row - 1 && pos[1] < this.mobj.cellList.col - 1 &&
+                        !this.mobj.cellList.getCellAt(pos[0] + 1, pos[0] + 1).hasObj()) {
+                    pos[0]++;
+                    pos[1]++;
+                    command.add("c");
+                    secondCounter += timePass(this.mobj, oldSpeed);
+                }
+                else {
+                    command.add(" ");
+                    break;
+                }
+            } else if (dir[0] == 0 && dir[1] == 1) {
+                if (this.mobj.y < this.mobj.cellList.col - 1 && !this.mobj.cellList.getCellAt(pos[0], pos[0] + 1).hasObj()) {
+                    pos[1]++;
+                    command.add("d");
+                    secondCounter += timePass(this.mobj, oldSpeed);
+                }
+                else {
+                    command.add(" ");
+                    break;
+                }
+            }
+            else if (dir[0] == -1 && dir[1] == 1) {
+                if (this.mobj.x > 0 && this.mobj.y < this.mobj.cellList.col - 1 &&
+                        !this.mobj.cellList.getCellAt(pos[0] - 1, pos[0] + 1).hasObj()) {
+                    pos[0]--;
+                    pos[1]++;
+                    command.add("e");
+                    secondCounter += timePass(this.mobj, oldSpeed);
+                } else {
+                    command.add(" ");
+                    break;
+                }
+            } else if (dir[0] == -1 && dir[1] == 0) {
+                if (this.mobj.x > 0 && !this.mobj.cellList.getCellAt(pos[0] - 1, pos[0]).hasObj()) {
+                    pos[0]--;
+                    command.add("w");
+                    secondCounter += timePass(this.mobj, oldSpeed);
+                } else {
+                    command.add(" ");
+                    break;
+                }
+            } else if (dir[0] == -1 && dir[1] == -1) {
+                cell destination;
+                if (this.mobj.x > 0 && this.mobj.y > 0 &&
+                        !this.mobj.cellList.getCellAt(pos[0] - 1, pos[1] - 1).hasObj()) {
+                    pos[0]--;
+                    pos[1]--;
+                    command.add("q");
+                    secondCounter += timePass(this.mobj, oldSpeed);
+                } else {
+                    command.add(" ");
+                    break;
+                }
+            } else if (dir[0] == 0 && dir[1] == -1) {
+                cell destination;
+                if (this.mobj.y > 0 && !this.mobj.cellList.getCellAt(pos[0], pos[1] - 1).hasObj()) {
+                    pos[1]--;
+                    command.add("a");
+                    secondCounter += timePass(this.mobj, oldSpeed);
+                } else {
+                    command.add(" ");
+                    break;
+                }
+            } else {
+                cell destination;
+                if (this.mobj.x < this.mobj.cellList.row - 1 && this.mobj.y > 0 &&
+                        !this.mobj.cellList.getCellAt(pos[0] +1, pos[1] - 1).hasObj()) {
+                    pos[0]++;
+                    pos[1]--;
+                    command.add("z");
+                    secondCounter += timePass(this.mobj, oldSpeed);
+                } else {
+                    command.add(" ");
+                    break;
+                }
+            }
+        }
+        if(out) command.add(" ");
+        return command;
+    }*/

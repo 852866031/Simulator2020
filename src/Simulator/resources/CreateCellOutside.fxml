@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="272.0" prefWidth="301.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <GridPane layoutX="23.0" layoutY="64.0" prefHeight="115.0" prefWidth="253.0">
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="190.0" minWidth="10.0" prefWidth="115.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="134.0" minWidth="10.0" prefWidth="131.0" />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            </rowConstraints>
+            <children>
+                <Label text="Set height of tile:" />
+                <TextField fx:id="cellHeight" prefHeight="27.0" prefWidth="131.0" GridPane.columnIndex="1" />
+                <Label text="Terrain:" GridPane.rowIndex="1" />
+                <Label text="Objects (optional):" GridPane.rowIndex="2" />
+                <ChoiceBox fx:id="terrainChoices" prefHeight="27.0" prefWidth="158.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                <ChoiceBox fx:id="obstacleChoices" onAction="#obstacleSelected" prefHeight="27.0" prefWidth="145.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            </children>
+        </GridPane>
+        <Label fx:id="cellIndex" layoutX="64.0" layoutY="30.0" text="Cell: ( , )" />
+        <Button fx:id="submitBtn" layoutX="122.0" layoutY="221.0" mnemonicParsing="false" onMouseClicked="#submit" text="Submit" />
+        <Label fx:id="massLabel" layoutX="163.0" layoutY="189.0" text="mass:" />
+        <TextField fx:id="mass" layoutX="201.0" layoutY="184.0" prefHeight="27.0" prefWidth="44.0" />
+        <Label fx:id="kgLabel" layoutX="252.0" layoutY="189.0" text="kg" />
+        <Label fx:id="idLabel" layoutX="52.0" layoutY="189.0" text="id:" />
+        <TextField fx:id="id" layoutX="77.0" layoutY="184.0" prefHeight="27.0" prefWidth="44.0" />
+    </children>
+</AnchorPane>
